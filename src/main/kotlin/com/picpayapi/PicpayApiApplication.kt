@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class PicpayApiApplication
 
 fun main(args: Array<String>) {
-	runApplication<PicpayApiApplication>(*args)
+    runApplication<PicpayApiApplication>(*args)
 }
