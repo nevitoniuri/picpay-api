@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-08-23-181843
+      author: nevitoniuri
+      comment: Create users table
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: user
+      changes:
+        sql: >
+          CREATE TABLE users
+          (
+              id         BIGINT PRIMARY KEY,
+              first_name VARCHAR(255)   NOT NULL,
+              last_name  VARCHAR(255)   NOT NULL,
+              document   VARCHAR(255)   NOT NULL,
+              email      VARCHAR(255)   NOT NULL,
+              password   VARCHAR(255)   NOT NULL,
+              balance    NUMERIC(12, 2) NOT NULL,
+              user_type  VARCHAR(20)    NOT NULL,
+
+              CONSTRAINT document_unique UNIQUE (document),
+              CONSTRAINT email_unique UNIQUE (email),
+              CONSTRAINT balance_positive CHECK (balance >= 0)
+          );

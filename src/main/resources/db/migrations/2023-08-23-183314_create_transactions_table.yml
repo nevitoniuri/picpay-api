@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023-08-23-183314
+      author: nevitoniuri
+      comment: Create transactions table
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: transactions
+      changes:
+        sql: >
+          CREATE TABLE transactions
+          (
+              id        BIGINT PRIMARY KEY,
+              value     NUMERIC(12, 2) NOT NULL,
+              payer_id  BIGINT         NOT NULL,
+              payee_id  BIGINT         NOT NULL,
+              timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              success   BOOLEAN   DEFAULT FALSE,
+
+              FOREIGN KEY (payer_id) REFERENCES users (id),
+              FOREIGN KEY (payee_id) REFERENCES users (id),
+              CONSTRAINT value_positive CHECK (value > 0)
+          );
