@@ -24,5 +24,5 @@ class Transaction(
 
     val timestamp: LocalDateTime = LocalDateTime.now(),
 
-    val success: Boolean? = false
+    val success: Boolean? = true
 )

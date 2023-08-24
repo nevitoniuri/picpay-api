@@ -5,6 +5,7 @@ import com.picpayapi.adapter.outbound.repository.TransactionRepository
 import com.picpayapi.application.model.Transaction
 import com.picpayapi.application.model.UserType
 import com.picpayapi.application.service.transaction.CreateTransactionService
+import com.picpayapi.application.service.user.UpdateUsersBalance
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
@@ -12,19 +13,24 @@ import java.math.BigDecimal
 @Service
 class CreateTransactionServiceImpl(
     private val transactionRepository: TransactionRepository,
-    private val transactionAuthorizationClient: TransactionAuthorizationClient
+    private val transactionAuthorizationClient: TransactionAuthorizationClient,
+    private val updateUsersBalance: UpdateUsersBalance
 ) : CreateTransactionService {
 
     @Transactional
     override fun execute(transaction: Transaction) {
         validateTransaction(transaction)
         authorizeTransaction(transaction)
+        updateUsersBalance.execute(transaction)
         transactionRepository.save(transaction)
     }
 
     fun validateTransaction(transaction: Transaction) {
         if (transaction.value <= BigDecimal.ZERO) {
             throw Exception("Invalid transaction value")
+        }
+        if (transaction.payer.balance < transaction.value) {
+            throw Exception("Insufficient balance")
         }
         if (transaction.payer.id == transaction.payee.id) {
             throw Exception("Payer and payee must be different")
