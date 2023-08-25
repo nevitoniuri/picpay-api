@@ -1,9 +1,10 @@
 package com.picpayapi.application.service.transaction.impl
 
-import com.picpayapi.adapters.outbound.integration.authorization.TransactionAuthorizationClient
-import com.picpayapi.adapters.outbound.repository.TransactionRepository
 import com.picpayapi.adapters.entity.Transaction
 import com.picpayapi.adapters.entity.UserType
+import com.picpayapi.adapters.outbound.integration.authorization.TransactionAuthorizationClient
+import com.picpayapi.adapters.outbound.repository.TransactionRepository
+import com.picpayapi.application.exception.BadRequestException
 import com.picpayapi.application.service.notification.SendNotificationService
 import com.picpayapi.application.service.transaction.CreateTransactionService
 import com.picpayapi.application.service.user.UpdateUsersBalance
@@ -30,23 +31,23 @@ class CreateTransactionServiceImpl(
 
     fun validateTransaction(transaction: Transaction) {
         if (transaction.value <= BigDecimal.ZERO) {
-            throw Exception("Invalid transaction value")
+            throw BadRequestException("Invalid transaction value")
         }
         if (transaction.payer.balance < transaction.value) {
-            throw Exception("Insufficient balance")
+            throw BadRequestException("Insufficient balance")
         }
         if (transaction.payer.id == transaction.payee.id) {
-            throw Exception("Payer and payee must be different")
+            throw BadRequestException("Payer and payee must be different")
         }
         if (transaction.payer.userType == UserType.MERCHANT) {
-            throw Exception("Merchant can't be payer")
+            throw BadRequestException("Merchant can't be payer")
         }
     }
 
     fun authorizeTransaction(transaction: Transaction) {
         val transactionAuthorizationResponse = transactionAuthorizationClient.authorize()
         if (transactionAuthorizationResponse.message != "Autorizado") {
-            throw Exception("Transaction not authorized")
+            throw BadRequestException("Transaction not authorized")
         }
     }
 
