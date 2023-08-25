@@ -14,6 +14,12 @@ class SendNotificationServiceImpl(
     override fun execute(transaction: Transaction) {
         notificationClient.notify(
             NotificationRequest(
+                email = transaction.payer.email,
+                message = "You made a payment of ${transaction.value} to ${transaction.payee.firstName} ${transaction.payee.lastName}"
+            )
+        )
+        notificationClient.notify(
+            NotificationRequest(
                 email = transaction.payee.email,
                 message = "You received a payment of ${transaction.value} from ${transaction.payer.firstName} ${transaction.payer.lastName}"
             )
