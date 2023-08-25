@@ -6,22 +6,22 @@ import jakarta.validation.constraints.Size
 import org.hibernate.validator.constraints.br.CPF
 
 data class UserCreateRequest(
-    @NotBlank
-    @Size(min = 3, max = 50)
+    @field:NotBlank
+    @field:Size(min = 3, max = 50)
     val firstName: String,
 
-    @NotBlank
-    @Size(min = 3, max = 50)
+    @field:NotBlank
+    @field:Size(min = 3, max = 50)
     val lastName: String,
 
-    @CPF
-    @NotBlank
+    @field:CPF
+    @field:NotBlank
     val document: String,
 
-    @Email
-    @NotBlank
+    @field:Email
+    @field:NotBlank
     val email: String,
 
-    @NotBlank
+    @field:NotBlank
     val password: String
 )
