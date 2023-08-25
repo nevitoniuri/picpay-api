@@ -4,17 +4,12 @@ import com.picpayapi.adapters.dto.request.UserCreateRequest
 import com.picpayapi.adapters.dto.response.UserResponse
 import com.picpayapi.adapters.mapper.toResponse
 import com.picpayapi.adapters.mapper.toUser
+import com.picpayapi.adapters.utils.getResourceUri
 import com.picpayapi.application.service.user.CreateUserService
 import com.picpayapi.application.service.user.FindUserByIdService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
-import java.net.URI
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("v1/user")
@@ -29,8 +24,8 @@ class UserController(
     }
 
     @PostMapping
-    fun createUser(@RequestBody @Valid userCreateRequest: UserCreateRequest) : ResponseEntity<Unit> {
-        val user = createUserService.execute(userCreateRequest.toUser())
-        return ResponseEntity.created(URI.create("/v1/user/${user.id}")).build()
+    fun createUser(@RequestBody @Valid userCreateRequest: UserCreateRequest): ResponseEntity<Unit> {
+        val createdUser = createUserService.execute(userCreateRequest.toUser())
+        return ResponseEntity.created(getResourceUri(createdUser.id!!)).build()
     }
 }
