@@ -2,6 +2,7 @@ package com.picpayapi.application.service.user.impl
 
 import com.picpayapi.adapters.outbound.repository.UserRepository
 import com.picpayapi.adapters.entity.User
+import com.picpayapi.application.exception.NotFoundException
 import com.picpayapi.application.service.user.FindUserByIdService
 import org.springframework.stereotype.Service
 
@@ -12,8 +13,7 @@ class FindUserByIdServiceImpl(
 
     override fun execute(id: Long): User {
         return userRepository.findById(id).orElseThrow {
-            Exception("User not found")
+            NotFoundException("User not found")
         }
     }
-
 }

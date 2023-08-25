@@ -1,8 +1,8 @@
-package com.picpayapi.adapters.inbound.controller.request
+package com.picpayapi.adapters.dto.request
 
 import java.math.BigDecimal
 
-data class TransactionRequest(
+data class TransactionCreateRequest(
     val value: BigDecimal,
     val payerId: Long,
     val payeeId: Long

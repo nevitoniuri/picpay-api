@@ -1,6 +1,6 @@
 package com.picpayapi.adapters.inbound.controller
 
-import com.picpayapi.adapters.inbound.controller.request.TransactionRequest
+import com.picpayapi.adapters.dto.request.TransactionCreateRequest
 import com.picpayapi.adapters.entity.Transaction
 import com.picpayapi.application.service.transaction.CreateTransactionService
 import com.picpayapi.application.service.user.FindUserByIdService
@@ -17,7 +17,7 @@ class TransactionController(
 ) {
 
     @PostMapping
-    fun createTransaction(@RequestBody transaction: TransactionRequest) {
+    fun createTransaction(@RequestBody transaction: TransactionCreateRequest) {
         createTransactionService.execute(
             Transaction(
                 value = transaction.value,
