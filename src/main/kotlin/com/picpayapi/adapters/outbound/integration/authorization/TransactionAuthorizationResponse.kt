@@ -1,3 +1,3 @@
-package com.picpayapi.adapter.outbound.integration
+package com.picpayapi.adapters.outbound.integration.authorization
 
 data class TransactionAuthorizationResponse(val message: String)

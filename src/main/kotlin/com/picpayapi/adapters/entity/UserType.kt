@@ -1,4 +1,4 @@
-package com.picpayapi.application.model
+package com.picpayapi.adapters.entity
 
 enum class UserType {
     CONSUMER, MERCHANT

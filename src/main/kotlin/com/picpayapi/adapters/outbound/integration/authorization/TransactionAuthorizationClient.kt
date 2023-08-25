@@ -1,4 +1,4 @@
-package com.picpayapi.adapter.outbound.integration
+package com.picpayapi.adapters.outbound.integration.authorization
 
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping

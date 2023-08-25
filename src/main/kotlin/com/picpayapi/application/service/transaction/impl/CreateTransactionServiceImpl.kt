@@ -1,9 +1,10 @@
 package com.picpayapi.application.service.transaction.impl
 
-import com.picpayapi.adapter.outbound.integration.TransactionAuthorizationClient
-import com.picpayapi.adapter.outbound.repository.TransactionRepository
-import com.picpayapi.application.model.Transaction
-import com.picpayapi.application.model.UserType
+import com.picpayapi.adapters.outbound.integration.authorization.TransactionAuthorizationClient
+import com.picpayapi.adapters.outbound.repository.TransactionRepository
+import com.picpayapi.adapters.entity.Transaction
+import com.picpayapi.adapters.entity.UserType
+import com.picpayapi.application.service.notification.SendNotificationService
 import com.picpayapi.application.service.transaction.CreateTransactionService
 import com.picpayapi.application.service.user.UpdateUsersBalance
 import org.springframework.stereotype.Service
@@ -14,7 +15,8 @@ import java.math.BigDecimal
 class CreateTransactionServiceImpl(
     private val transactionRepository: TransactionRepository,
     private val transactionAuthorizationClient: TransactionAuthorizationClient,
-    private val updateUsersBalance: UpdateUsersBalance
+    private val updateUsersBalance: UpdateUsersBalance,
+    private val sendNotificationService: SendNotificationService
 ) : CreateTransactionService {
 
     @Transactional
@@ -23,6 +25,7 @@ class CreateTransactionServiceImpl(
         authorizeTransaction(transaction)
         updateUsersBalance.execute(transaction)
         transactionRepository.save(transaction)
+        sendNotificationService.execute(transaction)
     }
 
     fun validateTransaction(transaction: Transaction) {

@@ -1,7 +1,7 @@
 package com.picpayapi.application.service.user.impl
 
-import com.picpayapi.adapter.outbound.repository.UserRepository
-import com.picpayapi.application.model.Transaction
+import com.picpayapi.adapters.entity.Transaction
+import com.picpayapi.adapters.outbound.repository.UserRepository
 import com.picpayapi.application.service.user.UpdateUsersBalance
 import org.springframework.stereotype.Service
 
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service
 class UpdateUsersBalanceImpl(
     private val userRepository: UserRepository
 ) : UpdateUsersBalance {
+
     override fun execute(transaction: Transaction) {
         val payer = transaction.payer
         val payee = transaction.payee

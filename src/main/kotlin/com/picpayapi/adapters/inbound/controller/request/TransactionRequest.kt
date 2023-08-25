@@ -1,4 +1,4 @@
-package com.picpayapi.adapter.inbound.controller.request
+package com.picpayapi.adapters.inbound.controller.request
 
 import java.math.BigDecimal
 

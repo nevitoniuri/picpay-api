@@ -1,7 +1,7 @@
-package com.picpayapi.adapter.inbound.controller
+package com.picpayapi.adapters.inbound.controller
 
-import com.picpayapi.adapter.inbound.controller.request.TransactionRequest
-import com.picpayapi.application.model.Transaction
+import com.picpayapi.adapters.inbound.controller.request.TransactionRequest
+import com.picpayapi.adapters.entity.Transaction
 import com.picpayapi.application.service.transaction.CreateTransactionService
 import com.picpayapi.application.service.user.FindUserByIdService
 import org.springframework.web.bind.annotation.PostMapping
